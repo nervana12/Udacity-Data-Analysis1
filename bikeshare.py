@@ -18,23 +18,23 @@ def get_filters():
     print('Hello! Let\'s explore some US bikeshare data!')
     # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     city = input('Would you like to see data for Chikago, New York, or Washington? ')
-    while city.title() not in ['Chikago', 'New York', 'Washington']:
+    while city.lower() not in ['chikago', 'new york', 'washington']:
         city = input('Invalid! choose correct one again please.. ')
-    city = city.title()  
+    city = city.lower()
 
     # TO DO: get user input for month (all, january, february, ... , june)
     month = input('Would you like to filter the data for {} by what month? (all, january, february, ... , june)'.format(city))
     while month.lower() not in ['all', 'january', 'february', 'march', 'april', 'may', 'june']:
         month = input('Invalid! choose correct one again please.. ')
     month = month.lower()
-    
-    
+
+
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
     day = input('Would you like to filter by what day? (all, monday, tuesday, ... sunday) '.format(city))
     while day.lower() not in ['all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']:
         day = input('Invalid! choose correct one again please.. ')
-    day.lower()    
-    
+    day = day.lower()
+
 
     print('-'*40)
     return city, month, day
@@ -52,7 +52,6 @@ def load_data(city, month, day):
         df - Pandas DataFrame containing city data filtered by month and day
     """
     # load data file into a dataframe
-    city = city.lower()
     df = pd.read_csv(CITY_DATA[city])
 
     # convert the Start Time column to datetime
@@ -68,7 +67,7 @@ def load_data(city, month, day):
         # use the index of the months list to get the corresponding int
         months = ['january', 'february', 'march', 'april', 'may', 'june']
         month = months.index(month) + 1
-    
+
         # filter by month to create the new dataframe
         df = df[df['month'] == month]
 
@@ -81,8 +80,12 @@ def load_data(city, month, day):
 
 
 def time_stats(df):
-    """Displays statistics on the most frequent times of travel."""
+    """
+    Displays statistics on the most frequent times of travel.
 
+    Args:
+        (pandas dataframe) df - the dataset to analyze  // df - Pandas DataFrame containing dataset to analyze
+    """
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
 
@@ -103,7 +106,11 @@ def time_stats(df):
 
 
 def station_stats(df):
-    """Displays statistics on the most popular stations and trip."""
+    """
+    Displays statistics on the most popular stations and trip.
+    Args:
+        df - Pandas DataFrame containing dataset to analyze
+    """
 
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
@@ -124,7 +131,12 @@ def station_stats(df):
 
 
 def trip_duration_stats(df):
-    """Displays statistics on the total and average trip duration."""
+    """
+    Displays statistics on the total and average trip duration.
+
+    Args:
+        df - Pandas DataFrame containing dataset to analyze
+    """
 
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
@@ -140,7 +152,13 @@ def trip_duration_stats(df):
 
 
 def user_stats(df, city):
-    """Displays statistics on bikeshare users."""
+    """
+    Displays statistics on bikeshare users.
+
+    Args:
+        df - Pandas DataFrame containing dataset to analyze
+        (str) city - name of the city to analyze
+    """
 
     print('\nCalculating User Stats...\n')
     start_time = time.time()
@@ -188,4 +206,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
