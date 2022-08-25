@@ -26,7 +26,7 @@ def get_filters():
     month = input('Would you like to filter the data for {} by what month? (all, january, february, ... , june)'.format(city))
     while month.lower() not in ['all', 'january', 'february', 'march', 'april', 'may', 'june']:
         month = input('Invalid! choose correct one again please.. ')
-    month.lower()
+    month = month.lower()
     
     
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
@@ -139,7 +139,7 @@ def trip_duration_stats(df):
     print('-'*40)
 
 
-def user_stats(df):
+def user_stats(df, city):
     """Displays statistics on bikeshare users."""
 
     print('\nCalculating User Stats...\n')
@@ -149,14 +149,15 @@ def user_stats(df):
     print('There are {} types of users, their counts:'.format(df['User Type'].nunique()))
     print(df['User Type'].value_counts())
 
-    # TO DO: Display counts of gender
-    print('counts of gender:')
-    print(df['Gender'].value_counts())
+    if city != 'washington':
+        # TO DO: Display counts of gender
+        print('counts of gender:')
+        print(df['Gender'].value_counts())
 
-    # TO DO: Display earliest, most recent, and most common year of birth
-    print('Earliest year of birth of users is {}'.format(int(df['Birth Year'].min())))
-    print('And the most recent year of birth of them is {}'.format(int(df['Birth Year'].max())))
-    print('Most common year of birth is {}'.format(int(df['Birth Year'].mean())))
+        # TO DO: Display earliest, most recent, and most common year of birth
+        print('Earliest year of birth of users is {}'.format(int(df['Birth Year'].min())))
+        print('And the most recent year of birth of them is {}'.format(int(df['Birth Year'].max())))
+        print('Most common year of birth is {}'.format(int(df['Birth Year'].mean())))
 
     # print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -170,7 +171,15 @@ def main():
         time_stats(df)
         station_stats(df)
         trip_duration_stats(df)
-        user_stats(df)
+        user_stats(df, city)
+
+        i = 0
+        while True:
+            restart = input('\nWould you like to display 5 rows of the data to explore? Enter yes or no.\n')
+            if restart.lower() != 'yes':
+                break
+            print(df.iloc[i:i+5])
+            i += 5
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
